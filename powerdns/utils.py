@@ -109,7 +109,8 @@ class Owned(models.Model):
     of this model, but can be overridden.
     """
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
