@@ -50,6 +50,7 @@ DEFAULT_REVERSE_DOMAIN_TEMPLATE = None
 
 
 class PreviousStateMixin(models.Model):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         fields = [f.name for f in self._meta.get_fields()]
@@ -105,6 +106,7 @@ b32_trans = maketrans_func(
 
 @deconstructible
 class SubDomainValidator():
+
     def __call__(self, domain_name):
         """This class is here only to NOT break old migrations.
         It'll be removed in future releases."""
@@ -149,6 +151,7 @@ class Domain(PreviousStateMixin, OwnershipByService, TimeTrackable, Owned):
         verbose_name=_('Template'),
         blank=True,
         null=True,
+        on_delete=models.CASCADE
     )
     reverse_template = models.ForeignKey(
         'powerdns.DomainTemplate',
@@ -161,6 +164,7 @@ class Domain(PreviousStateMixin, OwnershipByService, TimeTrackable, Owned):
             'PTR templates are automatically created for A records in this '
             'template.'
         )
+        on_delete=models.CASCADE
     )
     auto_ptr = ChoiceField(
         choices=AutoPtrOptions,
@@ -257,8 +261,9 @@ class Domain(PreviousStateMixin, OwnershipByService, TimeTrackable, Owned):
 
 
 class DomainOwner(models.Model):
-    domain = models.ForeignKey(Domain)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              on_delete=models.CASCADE)
     ownership_type = models.CharField(
         max_length=10, db_index=True,
         choices=[(type_.name, type_.value) for type_ in OwnershipType],
@@ -279,6 +284,7 @@ class Record(
     domain = models.ForeignKey(
         Domain,
         verbose_name=_("domain"),
+        on_delete=models.CASCADE
     )
     name = models.CharField(
         _("name"),
@@ -344,6 +350,7 @@ class Record(
         verbose_name=_('Template'),
         blank=True,
         null=True,
+        on_delete=models.CASCADE
     )
     depends_on = models.ForeignKey(
         'self',
@@ -355,6 +362,7 @@ class Record(
             'should be automatically updated/deleted. Used for PTR records'
             'that depend on A records.'
         )
+        on_delete=models.CASCADE
     )
     delete_request = GenericRelation(
         'DeleteRequest',
@@ -665,7 +673,8 @@ class SuperMaster(TimeTrackable):
 
 
 class DomainMetadata(TimeTrackable):
-    domain = models.ForeignKey(Domain, verbose_name=_("domain"))
+    domain = models.ForeignKey(Domain, verbose_name=_(
+        "domain"), on_delete=models.CASCADE)
     kind = models.CharField(_("kind"), max_length=31)
     content = models.TextField(_("content"), blank=True, null=True)
 

@@ -50,8 +50,9 @@ class Service(TimeTrackable):
 
 
 class ServiceOwner(TimeTrackable):
-    service = models.ForeignKey(Service)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              on_delete=models.CASCADE)
     ownership_type = models.CharField(
         max_length=10, db_index=True,
         choices=[(type_.name, type_.value) for type_ in OwnershipType],
@@ -68,7 +69,8 @@ class OwnershipByService(models.Model):
     class Meta:
         abstract = True
 
-    service = models.ForeignKey(Service, blank=True, null=True)
+    service = models.ForeignKey(
+        Service, blank=True, null=True, on_delete=models.CASCADE)
 
     def has_owner(self):
         has_service_owner = self.service and self.service.owners.exists()

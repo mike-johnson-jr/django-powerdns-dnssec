@@ -11,6 +11,7 @@ from ..utils import AutoPtrOptions
 
 
 class DomainTemplateManager(models.Manager):
+
     def get_by_natural_key(self, name):
         return self.get(name=name)
 
@@ -54,6 +55,7 @@ class DomainTemplate(models.Model):
 
 
 class RecordTemplateManager(models.Manager):
+
     def get_by_natural_key(self, domain_name, type, name, content):
         return self.get(
             domain_template__name=domain_name,
@@ -68,7 +70,9 @@ class RecordTemplate(models.Model):
     to be created."""
     objects = RecordTemplateManager()
     domain_template = models.ForeignKey(
-        DomainTemplate, verbose_name=_('Domain template')
+        DomainTemplate,
+        verbose_name=_('Domain template'),
+        on_delete=models.CASCADE
     )
     type = models.CharField(
         _("type"), max_length=6, blank=True, null=True,

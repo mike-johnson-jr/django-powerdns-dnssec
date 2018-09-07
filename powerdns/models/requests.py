@@ -106,7 +106,7 @@ class Request(Owned, TimeTrackable):
 
 class DeleteRequest(Request):
     """A request for object deletion"""
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     target_id = models.PositiveIntegerField()
     target = GenericForeignKey('content_type', 'target_id')
 
@@ -254,6 +254,7 @@ class DomainRequest(ChangeCreateRequest):
         help_text=_(
             'The domain for which a change is requested'
         ),
+        on_delete=models.CASCADE
     )
     parent_domain = models.ForeignKey(
         Domain,
@@ -263,9 +264,11 @@ class DomainRequest(ChangeCreateRequest):
         help_text=_(
             'The parent domain for which a new subdomain is to be created'
         ),
+        on_delete=models.CASCADE
 
     )
-    target_service = models.ForeignKey(Service, blank=True, null=True)
+    target_service = models.ForeignKey(
+        Service, blank=True, null=True, on_delete=models.CASCADE)
     target_name = models.CharField(
         _("name"),
         max_length=255,
@@ -292,7 +295,8 @@ class DomainRequest(ChangeCreateRequest):
         verbose_name=_('Template'),
         blank=True,
         null=True,
-        related_name='template_for_requests'
+        related_name='template_for_requests',
+        on_delete=models.CASCADE
     )
     target_reverse_template = models.ForeignKey(
         'powerdns.DomainTemplate',
@@ -304,7 +308,8 @@ class DomainRequest(ChangeCreateRequest):
             'A template that should be used for reverse domains when '
             'PTR templates are automatically created for A records in this '
             'template.'
-        )
+        ),
+        on_delete=models.CASCADE
     )
     target_auto_ptr = ChoiceField(
         choices=AutoPtrOptions,
@@ -328,7 +333,7 @@ class DomainRequest(ChangeCreateRequest):
         null=True,  # For the sake of existing ones
         blank=False,
         related_name='+',
-
+        on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -370,6 +375,7 @@ class RecordRequest(ChangeCreateRequest, RecordLike):
         help_text=_(
             'The domain for which a record is to be added'
         ),
+        on_delete=models.CASCADE
     )
     record = models.ForeignKey(
         Record,
@@ -382,7 +388,8 @@ class RecordRequest(ChangeCreateRequest, RecordLike):
             'The record for which a change is being requested'
         ),
     )
-    target_service = models.ForeignKey(Service, blank=True, null=True)
+    target_service = models.ForeignKey(
+        Service, blank=True, null=True, on_delete=models.CASCADE)
     target_name = models.CharField(
         _("name"), max_length=255, blank=False, null=False,
         validators=[validate_domain_name],
@@ -433,6 +440,7 @@ class RecordRequest(ChangeCreateRequest, RecordLike):
         null=True,  # For the sake of existing ones
         blank=False,
         related_name='+',
+        on_delete=models.CASCADE
     )
 
     def get_record_pk(self):
