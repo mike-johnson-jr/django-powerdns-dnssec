@@ -163,7 +163,7 @@ class Domain(PreviousStateMixin, OwnershipByService, TimeTrackable, Owned):
             'A template that should be used for reverse domains when '
             'PTR templates are automatically created for A records in this '
             'template.'
-        )
+        ),
         on_delete=models.CASCADE
     )
     auto_ptr = ChoiceField(
@@ -361,7 +361,7 @@ class Record(
             'This record is maintained automatically for another record. It '
             'should be automatically updated/deleted. Used for PTR records'
             'that depend on A records.'
-        )
+        ),
         on_delete=models.CASCADE
     )
     delete_request = GenericRelation(
