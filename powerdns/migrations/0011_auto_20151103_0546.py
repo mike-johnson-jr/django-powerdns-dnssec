@@ -19,16 +19,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Authorisation',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID',
+                                        serialize=False, auto_created=True, primary_key=True)),
                 ('target_id', models.PositiveIntegerField()),
-                ('authorised', models.ForeignKey(related_name='received_authorisations', to=settings.AUTH_USER_MODEL)),
-                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
-                ('owner', models.ForeignKey(related_name='issued_authorisations', to=settings.AUTH_USER_MODEL)),
+                ('authorised', models.ForeignKey(related_name='received_authorisations',
+                                                 to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+                ('content_type', models.ForeignKey(
+                    to='contenttypes.ContentType', on_delete=models.CASCADE)),
+                ('owner', models.ForeignKey(related_name='issued_authorisations',
+                                            to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
         ),
         migrations.AlterField(
             model_name='domain',
             name='name',
-            field=models.CharField(verbose_name='name', unique=True, max_length=255, validators=[django.core.validators.RegexValidator('^(\\*\\.)?([_A-Za-z0-9-]+\\.)*([A-Za-z0-9])+$'), powerdns.models.powerdns.SubDomainValidator()]),
+            field=models.CharField(verbose_name='name', unique=True, max_length=255, validators=[django.core.validators.RegexValidator(
+                '^(\\*\\.)?([_A-Za-z0-9-]+\\.)*([A-Za-z0-9])+$'), powerdns.models.powerdns.SubDomainValidator()]),
         ),
     ]

@@ -106,11 +106,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='domainrequest',
             name='target_owner',
-            field=models.ForeignKey(null=True, verbose_name='Owner', related_name='+', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True, verbose_name='Owner', related_name='+',
+                                    to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='recordrequest',
             name='target_owner',
-            field=models.ForeignKey(null=True, verbose_name='Owner', related_name='+', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True, verbose_name='Owner', related_name='+',
+                                    to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
     ]

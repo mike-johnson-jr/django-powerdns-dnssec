@@ -16,36 +16,43 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='domain',
             name='owner',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(
+                to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='record',
             name='owner',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(
+                to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='cryptokey',
             name='modified',
-            field=models.DateTimeField(verbose_name='last modified', auto_now=True),
+            field=models.DateTimeField(
+                verbose_name='last modified', auto_now=True),
         ),
         migrations.AlterField(
             model_name='domain',
             name='modified',
-            field=models.DateTimeField(verbose_name='last modified', auto_now=True),
+            field=models.DateTimeField(
+                verbose_name='last modified', auto_now=True),
         ),
         migrations.AlterField(
             model_name='domainmetadata',
             name='modified',
-            field=models.DateTimeField(verbose_name='last modified', auto_now=True),
+            field=models.DateTimeField(
+                verbose_name='last modified', auto_now=True),
         ),
         migrations.AlterField(
             model_name='record',
             name='modified',
-            field=models.DateTimeField(verbose_name='last modified', auto_now=True),
+            field=models.DateTimeField(
+                verbose_name='last modified', auto_now=True),
         ),
         migrations.AlterField(
             model_name='supermaster',
             name='modified',
-            field=models.DateTimeField(verbose_name='last modified', auto_now=True),
+            field=models.DateTimeField(
+                verbose_name='last modified', auto_now=True),
         ),
     ]

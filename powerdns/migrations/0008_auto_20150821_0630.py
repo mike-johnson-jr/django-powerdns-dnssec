@@ -15,16 +15,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='recordtemplate',
             name='auto_ptr',
-            field=models.IntegerField(default=2, verbose_name='Auto PTR field'),
+            field=models.IntegerField(
+                default=2, verbose_name='Auto PTR field'),
         ),
         migrations.AlterField(
             model_name='domain',
             name='owner',
-            field=models.ForeignKey(null=True, blank=True, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                null=True, blank=True, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='record',
             name='owner',
-            field=models.ForeignKey(null=True, blank=True, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                null=True, blank=True, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
     ]
